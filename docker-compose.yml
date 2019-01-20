@@ -1,0 +1,34 @@
+version: "0.1"
+
+services:
+
+  frontend:
+    build: frontend
+    ports:
+      - 8080:8080
+    volumes:
+      - ./frontend:/plantc/frontend
+
+
+  backend:
+    build: backend
+    # entrypoint: tail -f /dev/null
+    ports:
+      - 5000:5000
+    volumes:
+      - ./backend:/plantc/backend
+    links:
+      - db:db
+    environment:
+      DB_HOST: db
+      DB_NAME: plantc
+      DB_USER: plantc
+      DB_PASSWORD: plantc
+      SECRET_KEY: plantcollector
+
+  db:
+    image: postgres:9.5
+    environment:
+      POSTGRES_DB: plantc
+      POSTGRES_USER: plantc
+      POSTGRES_PASSWORD: plantc
