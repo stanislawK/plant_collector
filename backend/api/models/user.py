@@ -1,4 +1,4 @@
-from api import db
+from api.extensions import db
 
 
 class UserModel(db.Model):
@@ -23,7 +23,7 @@ class UserModel(db.Model):
 
     def save_to_db(self):
         db.session.add(self)
-        db.commit()
+        db.session.commit()
 
     def delete_from_db(self):
         db.session.delete(self)
