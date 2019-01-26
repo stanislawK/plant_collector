@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from flask_restful import Resource
-from marshmallow import ValidatronError
+from marshmallow import ValidationError
 
 from api.models.user import UserModel
 from api.serializers.user import user_schema
@@ -16,8 +16,8 @@ class UserRegister(Resource):
     def post(cls):
         try:
             user_data = user_schema.load(request.get_json())
-        except ValidatronError as err:
-            return jsonify(err.messages), 400
+        except ValidationError as err:
+            return {"message": err.messages}, 400
 
         new_user = UserModel(username=user_data['username'],
                              password=user_data['password'],

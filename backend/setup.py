@@ -14,5 +14,6 @@ setup(
         'flask-restful==0.3.7',
         'flask-cors==3.0.7',
         'pytest==4.1.0',
+        'pytest-flask-sqlalchemy==1.0.0',
     ],
 )

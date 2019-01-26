@@ -38,3 +38,7 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_POOL_RECYCLE = 299
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.environ.get('SECRET_KEY')
+
+
+class TestConfig(Config):
+    TESTING = True
