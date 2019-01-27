@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 from api.extensions import db, flask_api, migrate
 from api.resources.user import UserRegister
@@ -13,6 +14,8 @@ def create_app(test_config=None):
         app.config.update(test_config)
 
     initialize_extensions(app)
+    CORS(app)
+
     return app
 
 
