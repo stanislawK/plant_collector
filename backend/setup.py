@@ -15,5 +15,6 @@ setup(
         'flask-cors==3.0.7',
         'pytest==4.1.0',
         'pytest-flask-sqlalchemy==1.0.0',
+        'passlib==1.7.1',
     ],
 )

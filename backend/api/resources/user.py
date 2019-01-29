@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from flask_restful import Resource
 from marshmallow import ValidationError
+from passlib.hash import pbkdf2_sha256
 
 from api.models.user import UserModel
 from api.serializers.user import user_schema
@@ -19,8 +20,9 @@ class UserRegister(Resource):
         except ValidationError as err:
             return {"message": err.messages}, 400
 
+        hashed = pbkdf2_sha256.hash(user_data['password'])
         new_user = UserModel(username=user_data['username'],
-                             password=user_data['password'],
+                             password=hashed,
                              email=user_data['email'])
 
         if UserModel.find_by_username(new_user.username):
