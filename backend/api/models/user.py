@@ -1,13 +1,30 @@
-from api.extensions import db
+from flask import request, url_for
+from flask_mail import Message
+
+from api.extensions import db, mail
+from api.models.confirmation import ConfirmationModel
+
+
+SUBJECT = "Potwierdzenie rejestracji w plant_collector"
+BODY = "Wejdź w poniższy link aby potwierdzić rejestrację {}"
 
 
 class UserModel(db.Model):
-    __tabelname__ = "users"
+    __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(256), nullable=False)
     email = db.Column(db.String(50), nullable=False, unique=True)
+
+    confirmation = db.relationship(
+        "ConfirmationModel", lazy="dynamic", cascade="all, delete-orphan"
+    )
+
+    @property
+    def most_recent_confirmation(self):
+        expire_desc = db.desc(ConfirmationModel.expire_at)
+        return self.confirmation.order_by(expire_desc).first()
 
     @classmethod
     def find_by_id(cls, _id):
@@ -20,6 +37,21 @@ class UserModel(db.Model):
     @classmethod
     def find_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
+
+    def send_confirmation_email(self):
+        link = request.url_root[:-1] + url_for(
+            'confirmation', confirmation_id=self.most_recent_confirmation.id
+        )
+        msg = Message(
+            subject=SUBJECT,
+            sender=("plant", "plant@test.com"),
+            recipients=[self.email]
+        )
+        msg.body = BODY.format(link)
+
+        with mail.record_messages() as outbox:
+            mail.send(msg)
+        print(outbox[0], flush=True)
 
     def save_to_db(self):
         db.session.add(self)

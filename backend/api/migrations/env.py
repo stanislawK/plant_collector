@@ -16,7 +16,8 @@ logger = logging.getLogger('alembic.env')
 # add your model's MetaData object here
 # for 'autogenerate' support
 from api.models.user import UserModel
-target_metadata = [UserModel.metadata]
+from api.models.confirmation import ConfirmationModel
+target_metadata = [UserModel.metadata, ConfirmationModel.metadata]
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from flask import current_app
