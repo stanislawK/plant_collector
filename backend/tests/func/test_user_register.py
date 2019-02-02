@@ -10,7 +10,7 @@ def test_register_valid_user(client, new_user):
     rv = client.post('/register', json=new_user)
     response = rv.get_json()
     assert rv.status == '201 CREATED'
-    assert response['message'] == 'User created successfully'
+    assert response['message'] == 'Confirmation email was sent'
 
 
 def test_register__user_two_times(client, new_user):

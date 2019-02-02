@@ -23,3 +23,5 @@ yarn-error.log*
 __pycache__/
 .pytest_cache/
 *.pyc
+.egg-info/
+*.egg-info/
