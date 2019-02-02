@@ -30,7 +30,7 @@ class ConfirmationModel(db.Model):
         return time() > self.expire_at
 
     def force_to_expire(self):
-        if not self.expired:
+        if not self.expired():
             self.expire_at = int(time())
             self.save_to_db()
 

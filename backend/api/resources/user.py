@@ -11,7 +11,7 @@ from api.serializers.user import user_schema
 import pdb
 
 """Messages"""
-CREATED_SUCCESFULLY = "User created successfully"
+CREATED_SUCCESFULLY = "Confirmation email was sent"
 USER_ALREADY_EXIST = "User with that {} already exist"
 FAILED_TO_CREATE = "Error when trying to register new user"
 

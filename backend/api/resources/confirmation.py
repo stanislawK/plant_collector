@@ -24,7 +24,7 @@ class Confirmation(Resource):
             return {"message": EXPIRED}, 400
 
         if confirmation.confirmed:
-            return {"message": ALREADY_CONFIRMED}
+            return {"message": ALREADY_CONFIRMED}, 400
 
         confirmation.confirmed = True
         confirmation.save_to_db()
