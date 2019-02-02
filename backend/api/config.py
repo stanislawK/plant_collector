@@ -1,3 +1,4 @@
+import logging
 import os
 from os import urandom
 
@@ -24,6 +25,7 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = True
     TESTING = True
+    logging.basicConfig(level=logging.DEBUG)
 
     """db config"""
     SQLALCHEMY_DATABASE_URI = (

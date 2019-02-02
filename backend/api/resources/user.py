@@ -4,7 +4,11 @@ from marshmallow import ValidationError
 from passlib.hash import pbkdf2_sha256
 
 from api.models.user import UserModel
+from api.models.confirmation import ConfirmationModel
 from api.serializers.user import user_schema
+
+
+import pdb
 
 """Messages"""
 CREATED_SUCCESFULLY = "User created successfully"
@@ -31,4 +35,7 @@ class UserRegister(Resource):
             return {"message": USER_ALREADY_EXIST.format('email')}, 400
 
         new_user.save_to_db()
+        confirmation = ConfirmationModel(new_user.id)
+        confirmation.save_to_db()
+        new_user.send_confirmation_email()
         return {"message": CREATED_SUCCESFULLY}, 201
