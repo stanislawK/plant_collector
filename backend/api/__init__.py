@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
 
-from api.extensions import db, flask_api, mail, migrate
-from api.resources.user import UserRegister
+from api.extensions import db, jwt, flask_api, mail, migrate
+from api.resources.user import UserRegister, UserLogin
 from api.resources.confirmation import Confirmation
 
 
@@ -26,10 +26,12 @@ def initialize_extensions(app):
     # extension instance to bind it to the Flask application instance (app)
     db.init_app(app)
     migrate.init_app(app, db, directory='api/migrations')
+    jwt.init_app(app)
     mail.init_app(app)
     flask_api.init_app(app)
 
 
 """Adding Resources"""
 flask_api.add_resource(UserRegister, "/register")
+flask_api.add_resource(UserLogin, "/login")
 flask_api.add_resource(Confirmation, "/confirmation/<string:confirmation_id>")
