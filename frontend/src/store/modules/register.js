@@ -21,5 +21,15 @@ export default {
         })
       })
     },
+    confirmation(context, confId) {
+      return new Promise ((resolve, reject) => {
+        axios.get('/confirmation/' + confId)
+        .then(res => {
+          resolve(res);
+        }, error => {
+          reject(error);
+        })
+      })
+    },
   }
 }
