@@ -16,4 +16,5 @@ class UserSchema(Schema):
         user.confirmation = [user.most_recent_confirmation]
         return user
 
+
 user_schema = UserSchema()
