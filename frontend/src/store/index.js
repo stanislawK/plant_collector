@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import register from './modules/register';
+import signin from './modules/signin';
 
 Vue.use(Vuex);
 
@@ -11,7 +12,8 @@ const store = new Vuex.Store({
   actions: {},
 
   modules: {
-    register
+    register,
+    signin
   }
 })
 

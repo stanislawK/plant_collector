@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from './views/Home.vue'
 import Register from './components/Register.vue'
 import Confirmation from './components/Confirmation.vue'
+import SignIn from './components/SignIn.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,9 @@ export default new VueRouter({
     },
     {
       path: '/confirm/:id', component: Confirmation
-    }
+    },
+    {
+      path: '/login', component: SignIn
+    },
   ]
 })
