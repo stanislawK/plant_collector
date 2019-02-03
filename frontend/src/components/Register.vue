@@ -7,11 +7,13 @@
           type="error"
           :value="error_msg ? true : false"
           @click="error_msg=''"
+          transition="slide-y-transition"
           >{{error_msg}}</v-alert>
           <v-alert
           type="success"
           :value="successAlert"
           @click="successAlert = !successAlert"
+          transition="slide-y-transition"
           >Wysłano pomyślnie. Sprawdź swoją skrzynkę email, w celu dokończenia rejestracji</v-alert>
           <form>
             <v-text-field
@@ -148,6 +150,7 @@ export default {
 <style>
   .v-alert {
     cursor: pointer;
+    text-align: left;
   }
   .v-text-field__details {
     padding: 0.2em;

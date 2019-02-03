@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from './views/Home.vue'
 import Register from './components/Register.vue'
+import Confirmation from './components/Confirmation.vue'
 
 Vue.use(VueRouter)
 
@@ -23,8 +24,10 @@ export default new VueRouter({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: '/register',
-      component: Register
+      path: '/register', component: Register
+    },
+    {
+      path: '/confirm/:id', component: Confirmation
     }
   ]
 })
