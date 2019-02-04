@@ -17,7 +17,10 @@ logger = logging.getLogger('alembic.env')
 # for 'autogenerate' support
 from api.models.user import UserModel
 from api.models.confirmation import ConfirmationModel
-target_metadata = [UserModel.metadata, ConfirmationModel.metadata]
+from api.models.blacklist import RevokedTokenModel
+target_metadata = [UserModel.metadata,
+                   ConfirmationModel.metadata,
+                   RevokedTokenModel.metadata]
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from flask import current_app

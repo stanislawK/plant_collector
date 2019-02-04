@@ -1,14 +1,19 @@
 from flask import jsonify, request
 from flask_jwt_extended import (
     create_access_token,
-    create_refresh_token
+    create_refresh_token,
+    get_jwt_identity,
+    get_raw_jwt,
+    jwt_refresh_token_required,
+    jwt_required,
 )
 from flask_restful import Resource
 from marshmallow import ValidationError
 from passlib.hash import pbkdf2_sha256
 
-from api.models.user import UserModel
+from api.models.blacklist import RevokedTokenModel
 from api.models.confirmation import ConfirmationModel
+from api.models.user import UserModel
 from api.serializers.user import user_schema
 
 
@@ -20,6 +25,17 @@ USER_ALREADY_EXIST = "User with that {} already exist"
 FAILED_TO_CREATE = "Error when trying to register new user"
 NOT_CONFIRMED = "Registration wasn't comifired"
 INVALID_CREDENTIALS = "Invalid credentials"
+REVOKE_ACCESS = "Access token has been revoked."
+REVOKE_REFRESH = "Refresh token has been revoked."
+
+
+class User(Resource):
+    @classmethod
+    @jwt_required
+    def get(cls):
+        user_id = get_jwt_identity()
+        user = user_schema.dump(UserModel.find_by_id(user_id))
+        return {"user": user}, 200
 
 
 class UserRegister(Resource):
@@ -67,3 +83,32 @@ class UserLogin(Resource):
                         "refresh_token": refresh_token}, 200
             return {"message": NOT_CONFIRMED}, 400
         return {"message": INVALID_CREDENTIALS}, 401
+
+
+class UserLogoutAccess(Resource):
+    @classmethod
+    @jwt_required
+    def post(cls):
+        jti = get_raw_jwt()["jti"]
+        revoked_token = RevokedTokenModel(jti=jti)
+        revoked_token.add()
+        return {"message": REVOKE_ACCESS}, 200
+
+
+class UserLogoutRefresh(Resource):
+    @classmethod
+    @jwt_refresh_token_required
+    def post(cls):
+        jti = get_raw_jwt()["jti"]
+        revoked_token = RevokedTokenModel(jti=jti)
+        revoked_token.add()
+        return {"message": REVOKE_REFRESH}, 200
+
+
+class TokenRefresh(Resource):
+    @classmethod
+    @jwt_refresh_token_required
+    def post(cls):
+        current_user = get_jwt_identity()
+        new_token = create_access_token(identity=current_user, fresh=False)
+        return {"access_token": new_token}, 200

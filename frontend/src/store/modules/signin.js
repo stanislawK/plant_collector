@@ -24,6 +24,7 @@ export default {
         })
         .then( res => {
           localStorage.setItem('token', res.data.access_token)
+          localStorage.setItem('refresh_token', res.data.refresh_token)
           commit('auth_success', res.data.access_token)
           resolve(res)
         }, error => {
