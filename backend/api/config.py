@@ -49,6 +49,7 @@ class DevelopmentConfig(Config):
     """jwt config"""
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
+    JWT_ACCESS_TOKEN_EXPIRES = 10
 
 
 class TestConfig(Config):

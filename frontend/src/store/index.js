@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+
 import register from './modules/register';
-import signin from './modules/signin';
+import auth from './modules/auth';
 
 Vue.use(Vuex);
+
 
 const store = new Vuex.Store({
   state: {},
@@ -13,7 +15,7 @@ const store = new Vuex.Store({
 
   modules: {
     register,
-    signin
+    auth
   }
 })
 
