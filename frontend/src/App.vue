@@ -2,7 +2,10 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">About</router-link> |
+      <router-link to="/register">Zarejestruj się</router-link> |
+      <router-link to="/login">Zaloguj</router-link> |
+      <span v-if="isLoggedIn"><a @click="onLogout">Wyloguj</a></span> |
     </div>
     <router-view/>
   </div>
@@ -10,7 +13,20 @@
 <script>
   export default {
     created() {
-      this.$store.dispatch('signin/tryAutoLogin')
+      this.$store.dispatch('auth/tryAutoLogin')
+    },
+    methods: {
+      onLogout() {
+        this.$store.dispatch('auth/logout')
+        .then(() => {
+          this.$router.push('/')
+        })
+      }
+    },
+    computed: {
+      isLoggedIn() {
+        return this.$store.getters['auth/isLoggedIn']
+      }
     }
   }
 </script>

@@ -1,8 +1,16 @@
 from flask import Flask
 from flask_cors import CORS
 
+from api.models.blacklist import RevokedTokenModel
 from api.extensions import db, jwt, flask_api, mail, migrate
-from api.resources.user import UserRegister, UserLogin
+from api.resources.user import (
+    TokenRefresh,
+    User,
+    UserLogin,
+    UserLogoutAccess,
+    UserLogoutRefresh,
+    UserRegister,
+)
 from api.resources.confirmation import Confirmation
 
 
@@ -33,5 +41,16 @@ def initialize_extensions(app):
 
 """Adding Resources"""
 flask_api.add_resource(UserRegister, "/register")
-flask_api.add_resource(UserLogin, "/login")
 flask_api.add_resource(Confirmation, "/confirmation/<string:confirmation_id>")
+flask_api.add_resource(UserLogin, "/login")
+flask_api.add_resource(UserLogoutAccess, "/logout/access")
+flask_api.add_resource(UserLogoutRefresh, "/logout/refresh")
+flask_api.add_resource(User, "/user")
+flask_api.add_resource(TokenRefresh, "/refresh")
+
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    """Checking if a token is blacklisted"""
+    jti = decrypted_token['jti']
+    return RevokedTokenModel.is_jti_blacklisted(jti)

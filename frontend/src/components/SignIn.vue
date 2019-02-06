@@ -78,13 +78,11 @@ export default {
       this.error_msg = ''
       if(!this.$v.$invalid) {
         this.spinner = true
-        this.$store.dispatch('signin/login', loginData)
+        this.$store.dispatch('auth/login', loginData)
         .then( res => {
           this.spinner = false
           this.clearForm()
-          if (res.status == 200) {
-            this.successAlert = true;
-          }
+          this.$router.push('/')
         }, error => {
           this.spinner = false
           this.clearForm()
@@ -125,9 +123,6 @@ export default {
       )
       return errors
     },
-    requestStatus() {
-      return this.$store.getters['signin/authStatus']
-    }
   },
 }
 </script>

@@ -12,6 +12,11 @@ class ProductionConfig(Config):
     DEBUG = False
     TESTING = False
 
+    """set jwt secret key"""
+    JWT_SECRET_KEY = None
+    JWT_BLACKLIST_ENABLED = True
+    JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
+
     """flask_mail configuration required in production env"""
     MAIL_SERVER = None
     MAIL_PORT = None
@@ -40,6 +45,11 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_POOL_RECYCLE = 299
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.environ.get('SECRET_KEY')
+
+    """jwt config"""
+    JWT_BLACKLIST_ENABLED = True
+    JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
+    JWT_ACCESS_TOKEN_EXPIRES = 10
 
 
 class TestConfig(Config):
