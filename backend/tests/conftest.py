@@ -5,6 +5,7 @@ import pytest
 
 from api import create_app
 from api.extensions import db
+from api.models.confirmation import ConfirmationModel
 
 
 @pytest.fixture
@@ -16,7 +17,8 @@ def app():
         'TESTING': True,
         'SQLALCHEMY_TRACK_MODIFICATIONS': False,
         'DATABASE': db_path,
-        'SQLALCHEMY_DATABASE_URI': "sqlite://"
+        'SQLALCHEMY_DATABASE_URI': "sqlite://",
+        'JWT_SECRET_KEY': 'TestJWTKey'
     })
 
     # create the db and load test data
@@ -67,3 +69,13 @@ def new_user():
             'password': "testPass",
             'email': "test@test.com"}
     return user
+
+
+@pytest.fixture
+def registred_user(new_user, client, app, _db):
+    rv = client.post('/register', json=new_user)
+    with app.app_context():
+        db = _db
+        confirmations = db.session.query(ConfirmationModel).all()
+        conf_id = confirmations[0].id
+        rv2 = client.get("/confirmation/{}".format(conf_id))
