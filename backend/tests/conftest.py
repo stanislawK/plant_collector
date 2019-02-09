@@ -40,6 +40,13 @@ def client(app):
 
 
 @pytest.fixture
+def expired_client(app):
+    """A test client for the app."""
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = -1
+    return app.test_client()
+
+
+@pytest.fixture
 def _db():
     """Create and configure a new db instance for pytest-flask-sqlalchemy"""
     # create a temp file to isolate the db for each test
@@ -79,3 +86,13 @@ def registred_user(new_user, client, app, _db):
         confirmations = db.session.query(ConfirmationModel).all()
         conf_id = confirmations[0].id
         rv2 = client.get("/confirmation/{}".format(conf_id))
+
+
+@pytest.fixture
+def jwt():
+    jwt = ('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDk0NzQzMjksImZyZ'
+           'XNoIjp0cnVlLCJ0eXBlIjoiYWNjZXNzIiwianRpIjoiMjE3NWI2ZjgtY2Y0Zi00Njd'
+           'kLTg5NTQtZmY5ZjcxMDM2NmFmIiwibmJmIjoxNTQ5NDc0Mjk5LCJpZGVudGl0eSI6N'
+           'SwiaWF0IjoxNTQ5NDc0Mjk5fQ.IcoarNxOYrS-EAbAAPc_ZgbzGK8n_hXDCb_tkEhn'
+           'Y9c')
+    return jwt

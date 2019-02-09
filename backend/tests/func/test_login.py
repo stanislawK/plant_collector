@@ -26,10 +26,9 @@ def test_login_with_invalid_password(client, new_user, registred_user):
     WHEN trying to login with wrong password
     THEN check if proper error was raised with 401 status code
     """
-    rv = client.post('/login', json={
-                                    'username': new_user['username'],
-                                    'password': 'WrongPassword'
-                                    })
+    rv = client.post('/login', json={'username': new_user['username'],
+                                     'password': 'WrongPassword'
+                                     })
     response = rv.get_json()
     assert rv.status == '401 UNAUTHORIZED'
     assert response['message'] == 'Invalid credentials'
