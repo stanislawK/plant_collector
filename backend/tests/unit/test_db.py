@@ -18,5 +18,5 @@ def test_add_new_user_to_db(db_session, new_user):
     db_session.add(new_user)
 
     user = db_session.query(UserModel).filter_by(username="TestUser").first()
-    assert user.password == "testPass"
+    assert user.password == "testPass1!"
     assert user.email == "test@test.com"

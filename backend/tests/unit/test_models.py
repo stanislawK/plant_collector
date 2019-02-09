@@ -14,5 +14,5 @@ def test_user_model(new_user):
                          email=new_user['email'])
 
     assert new_user.username == 'TestUser'
-    assert new_user.password == 'testPass'
+    assert new_user.password == 'testPass1!'
     assert new_user.email == "test@test.com"

@@ -37,7 +37,7 @@
             label="Hasło"
             :append-icon="show1 ? 'visibility_off' : 'visibility'"
             :type="show1 ? 'text' : 'password'"
-            hint="Min. 8 znaków w tym duże, małe litery, i cyfry"
+            hint="Min. 8 znaków w tym duże, małe litery, cyfry, oraz znak specjalny"
             @click:append="show1 = !show1"
             required
             :error-messages="passwordErrors"
@@ -53,7 +53,9 @@
 </template>
 
 <script>
-import { email, minLength, maxLength, required } from 'vuelidate/lib/validators'
+import { email, minLength, maxLength, required, helpers } from 'vuelidate/lib/validators'
+
+const strength = helpers.regex('strength', /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()\-_+<,>.?/~`]).{8,}$/)
 
 export default {
   data() {
@@ -70,7 +72,7 @@ export default {
   validations: {
     username: { required, maxLength: maxLength(10) },
     email: { required, email } ,
-    password: { required, minLength: minLength(8) }
+    password: { required, minLength: minLength(8), strength }
   },
 
   methods: {
@@ -138,8 +140,11 @@ export default {
       !this.$v.password.minLength && errors.push(
         'Hasło musi mieć min. 8 znaków'
       )
-      !this.$v.username.required && errors.push(
+      !this.$v.password.required && errors.push(
         'Hasło jest wymagane'
+      )
+      !this.$v.password.strength && errors.push(
+        'Hasło musi zawierać dużą, małą literę, cyfrę, oraz znak specjalny'
       )
       return errors
     },

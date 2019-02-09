@@ -73,7 +73,7 @@ def _db():
 @pytest.fixture
 def new_user():
     user = {'username': "TestUser",
-            'password': "testPass",
+            'password': "testPass1!",
             'email': "test@test.com"}
     return user
 
