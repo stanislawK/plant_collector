@@ -12,17 +12,6 @@ Vue.use(Vuelidate)
 Vue.use(Vuetify)
 
 axios.defaults.baseURL = 'http://0.0.0.0:5000'
-axios.interceptors.response.use(response => {
-  return response;
-}, err => {
-  const refresh = localStorage.getItem('refresh_token')
-  if (err.response.status == 401 && refresh) {
-    store.dispatch('auth/logoutRefresh')
-  } else {
-    console.log(err.response.status)
-    console.log(err.response.data.msg)
-  }
-})
 
 new Vue({
   router,

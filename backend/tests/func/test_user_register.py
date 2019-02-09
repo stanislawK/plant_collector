@@ -46,3 +46,16 @@ def test_register_with_invalid_email(client, new_user):
     response = rv.get_json()['message']['email'][0]
     assert rv.status == '400 BAD REQUEST'
     assert response == 'Missing data for required field.'
+
+
+def test_register_with_weak_password(client, new_user):
+    """
+    GIVEN test client and user with weak password
+    WHEN post request sent to register endpoint
+    THEN check status and response
+    """
+    new_user['password'] = 'weak_password'
+    rv = client.post('/register', json=new_user)
+    res = rv.get_json()['message']['password'][0]
+    assert rv.status == '400 BAD REQUEST'
+    assert res == 'Uppercase, lowercase, digit and special symbol required'
