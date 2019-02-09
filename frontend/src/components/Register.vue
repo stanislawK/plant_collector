@@ -44,6 +44,17 @@
             @input="$v.password.$touch()"
             @blur="$v.password.$touch()"
             ></v-text-field>
+            <v-text-field
+            v-model="repeatPassword"
+            label="Powtórz hasło"
+            :append-icon="show1 ? 'visibility_off' : 'visibility'"
+            :type="show1 ? 'text' : 'password'"
+            @click:append="show1 = !show1"
+            required
+            :error-messages="repeatPasswordErrors"
+            @input="$v.repeatPassword.$touch()"
+            @blur="$v.repeatPassword.$touch()"
+            ></v-text-field>
             <v-btn @click="onSubmit">Wyślij</v-btn>
           </form>
         </v-flex>
@@ -53,7 +64,7 @@
 </template>
 
 <script>
-import { email, minLength, maxLength, required, helpers } from 'vuelidate/lib/validators'
+import { email, minLength, maxLength, required, helpers, sameAs } from 'vuelidate/lib/validators'
 
 const strength = helpers.regex('strength', /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()\-_+<,>.?/~`]).{8,}$/)
 
@@ -63,6 +74,7 @@ export default {
       username: '',
       email: '',
       password: '',
+      repeatPassword: '',
       show1: false,
       error_msg: '',
       successAlert: false,
@@ -72,7 +84,8 @@ export default {
   validations: {
     username: { required, maxLength: maxLength(10) },
     email: { required, email } ,
-    password: { required, minLength: minLength(8), strength }
+    password: { required, minLength: minLength(8), strength },
+    repeatPassword: { required, sameAsPassword: sameAs('password') }
   },
 
   methods: {
@@ -108,6 +121,7 @@ export default {
       this.username = ''
       this.email = ''
       this.password = ''
+      this.repeatPassword = ''
     }
   },
 
@@ -145,6 +159,17 @@ export default {
       )
       !this.$v.password.strength && errors.push(
         'Hasło musi zawierać dużą, małą literę, cyfrę, oraz znak specjalny'
+      )
+      return errors
+    },
+    repeatPasswordErrors() {
+      const errors = []
+      if (!this.$v.repeatPassword.$dirty) return errors
+      !this.$v.repeatPassword.sameAsPassword && errors.push(
+        'Hasła muszą być takie same'
+      )
+      !this.$v.repeatPassword.required && errors.push(
+        'Powtórzenie hasła jest wymagane'
       )
       return errors
     },
