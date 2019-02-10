@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from './views/Home.vue'
+import HomePage from './components/HomePage.vue'
 import Register from './components/Register.vue'
 import Confirmation from './components/Confirmation.vue'
 import SignIn from './components/SignIn.vue'
@@ -14,7 +14,7 @@ export default new VueRouter({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: HomePage
     },
     {
       path: '/about',
