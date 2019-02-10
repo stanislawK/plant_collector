@@ -3,6 +3,7 @@ from flask_mail import Message
 
 from api.extensions import db, mail
 from api.models.confirmation import ConfirmationModel
+from api.models.plant import PlantModel
 
 
 SUBJECT = "Potwierdzenie rejestracji w plant_collector"
@@ -19,6 +20,10 @@ class UserModel(db.Model):
 
     confirmation = db.relationship(
         "ConfirmationModel", lazy="dynamic", cascade="all, delete-orphan"
+    )
+
+    plants = db.relationship(
+        "PlantModel", lazy=True, cascade="all, delete-orphan"
     )
 
     @property
