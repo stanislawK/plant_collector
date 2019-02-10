@@ -87,11 +87,15 @@ export default {
           this.spinner = false
           this.clearForm()
           const err = error.response.data.message
-          if (err.includes('Invalid credentials')) {
+          if (err.password) {
             this.error_msg = "Nieprawidłowa nazwa użytkownika, lub hasło"
-          } if (err.includes("wasn't comifired")) {
+          } else if (err.includes('Invalid credentials')) {
+            this.error_msg = "Nieprawidłowa nazwa użytkownika, lub hasło"
+          } else if (err.includes("wasn't comifired")) {
             this.error_msg = ("Rejestracja nie została dokończona.\
                               Sprawdź skrzynkę email")
+          } else {
+            console.log(error)
           }
         })
       }

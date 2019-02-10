@@ -78,7 +78,6 @@ export default {
           commit('logout')
           delete axios.defaults.headers.common['Authorization']
           dispatch('logoutRefresh')
-          reject(error)
         })
       })
     },
