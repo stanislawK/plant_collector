@@ -4,6 +4,7 @@ export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 export FLASK_APP=api
 export FLASK_ENV=development
+export EDITOR="/usr/bin/nano"
 flask db migrate
 flask db upgrade
 flask run --host=0.0.0.0
