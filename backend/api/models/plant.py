@@ -1,5 +1,6 @@
 from api.extensions import db
 from api.models.description import DescriptionModel
+from api.models.images import ImageModel
 
 
 class PlantModel(db.Model):
@@ -15,7 +16,9 @@ class PlantModel(db.Model):
     descriptions = db.relationship(
         "DescriptionModel", lazy=True, cascade="all, delete-orphan"
     )
-    # images = None
+    images = db.relationship(
+        "ImageModel", lazy=True, cascade="all, delete-orphan"
+    )
 
     @classmethod
     def find_by_id(cls, _id):

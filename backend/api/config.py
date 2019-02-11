@@ -26,6 +26,12 @@ class ProductionConfig(Config):
     MAIL_USE_SSL = None
     MAIL_ASCII_ATTACHMENTS = None
 
+    """set maximum image size"""
+    MAX_CONTENT_LENGTH = None
+
+    """set directory for images"""
+    UPLOADED_IMAGES_DEST = None
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
@@ -49,7 +55,13 @@ class DevelopmentConfig(Config):
     """jwt config"""
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
-    JWT_ACCESS_TOKEN_EXPIRES = 10
+    JWT_ACCESS_TOKEN_EXPIRES = 900
+
+    """set maximum image size"""
+    MAX_CONTENT_LENGTH = None
+
+    """set directory for images"""
+    UPLOADED_IMAGES_DEST = os.path.join("static", "images")
 
 
 class TestConfig(Config):
