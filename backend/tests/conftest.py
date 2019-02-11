@@ -96,3 +96,11 @@ def jwt():
            'SwiaWF0IjoxNTQ5NDc0Mjk5fQ.IcoarNxOYrS-EAbAAPc_ZgbzGK8n_hXDCb_tkEhn'
            'Y9c')
     return jwt
+
+
+@pytest.fixture
+def new_plant():
+    plant = {"name": "Monstera",
+             "latin": "Monstera Adans.",
+             "difficulty": 5}
+    return plant
