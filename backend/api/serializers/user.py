@@ -4,6 +4,7 @@ from api.models.user import UserModel
 
 STRENGTH_ERROR = "Uppercase, lowercase, digit and special symbol required"
 
+
 class UserSchema(Schema):
     class Meta:
         fields = ('username', 'password', 'email')
