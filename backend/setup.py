@@ -16,6 +16,7 @@ setup(
         'pytest==4.2.0',
         'pytest-flask-sqlalchemy==1.0.0',
         'passlib==1.7.1',
-        'flask-jwt-extended==3.17.0'
+        'flask-jwt-extended==3.17.0',
+        'flasl-uploads==0.2.1'
     ],
 )
