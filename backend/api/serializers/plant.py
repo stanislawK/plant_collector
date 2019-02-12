@@ -4,7 +4,7 @@ from marshmallow import fields, Schema, validate
 class PlantSchema(Schema):
     class Meta:
         fields = ('name', 'latin', 'user', 'difficulty')
-        load_only = ('user')
+        load_only = ('user',)
 
     name = fields.Str(required=True, validate=[validate.Length(max=50)])
     latin = fields.Str(validate=[validate.Length(max=50)])
@@ -12,3 +12,4 @@ class PlantSchema(Schema):
 
 
 plant_schema = PlantSchema()
+plants_schema = PlantSchema(many=True)

@@ -3,6 +3,8 @@ from flask_cors import CORS
 
 from api.models.blacklist import RevokedTokenModel
 from api.extensions import db, jwt, flask_api, mail, migrate
+from api.resources.confirmation import Confirmation
+from api.resources.plant import Plant, Plants
 from api.resources.user import (
     TokenRefresh,
     User,
@@ -11,7 +13,6 @@ from api.resources.user import (
     UserLogoutRefresh,
     UserRegister,
 )
-from api.resources.confirmation import Confirmation
 
 
 def create_app(test_config=None):
@@ -47,6 +48,8 @@ flask_api.add_resource(UserLogoutAccess, "/logout/access")
 flask_api.add_resource(UserLogoutRefresh, "/logout/refresh")
 flask_api.add_resource(User, "/user")
 flask_api.add_resource(TokenRefresh, "/refresh")
+flask_api.add_resource(Plant, "/plant", "/plant/<int:plant_id>")
+flask_api.add_resource(Plants, "/plants")
 
 
 @jwt.token_in_blacklist_loader
