@@ -4,6 +4,7 @@ from flask_cors import CORS
 from api.models.blacklist import RevokedTokenModel
 from api.extensions import db, jwt, flask_api, mail, migrate
 from api.resources.confirmation import Confirmation
+from api.resources.description import Description
 from api.resources.plant import Plant, Plants
 from api.resources.user import (
     TokenRefresh,
@@ -50,6 +51,7 @@ flask_api.add_resource(User, "/user")
 flask_api.add_resource(TokenRefresh, "/refresh")
 flask_api.add_resource(Plant, "/plant", "/plant/<int:plant_id>")
 flask_api.add_resource(Plants, "/plants")
+flask_api.add_resource(Description, "/plant/<int:plant_id>/description")
 
 
 @jwt.token_in_blacklist_loader
