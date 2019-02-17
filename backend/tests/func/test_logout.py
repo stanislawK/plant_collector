@@ -4,15 +4,12 @@ from datetime import datetime, timedelta
 import pytest
 
 
-def test_logout_user_with_valid_access_token(client, registred_user, new_user):
+def test_logout_user_with_valid_access_token(client, access_token):
     """
     GIVEN logged in user and app instance
     WHEN trying to logout with access token
     THEN check 200 status code and response
     """
-    rv = client.post('/login', json={'username': new_user['username'],
-                                     'password': new_user['password']})
-    access_token = rv.get_json()['access_token']
     rv_logout = client.post('/logout/access',
                             headers={'Authorization': 'Bearer {}'
                                      .format(access_token)})
@@ -63,14 +60,12 @@ def test_logout_user_with_valid_tokens(client, registred_user, new_user):
     assert resp_refresh['message'] == 'Refresh token has been revoked.'
 
 
-def test_logout_user_without_token(client, registred_user, new_user):
+def test_logout_user_without_token(client, access_token):
     """
     GIVEN logged in user and app instance
     WHEN trying to logout users withot token in header
     THEN check 401 status code, and error message
     """
-    rv = client.post('/login', json={'username': new_user['username'],
-                                     'password': new_user['password']})
     rv_logout = client.post('/logout/access')
     resp = rv_logout.get_json()
     assert rv_logout.status == '401 UNAUTHORIZED'
@@ -94,16 +89,12 @@ def test_logout_user_with_invalid_token(client, registred_user, new_user, jwt):
 
 
 def test_logout_user_with_expired_token(expired_client,
-                                        registred_user,
-                                        new_user):
+                                        access_token):
     """
     GIVEN logged in user and app instance
     WHEN trying to logout with expired access token
     THEN check 401 status code and error message
     """
-    rv = expired_client.post('/login', json={'username': new_user['username'],
-                                             'password': new_user['password']})
-    access_token = rv.get_json()['access_token']
     rv_logout = expired_client.post('/logout/access',
                                     headers={'Authorization': 'Bearer {}'
                                              .format(access_token)})

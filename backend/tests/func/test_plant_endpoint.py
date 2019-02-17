@@ -1,15 +1,12 @@
 import pytest
 
 
-def test_add_new_plant(client, registred_user, new_user, new_plant):
+def test_add_new_plant(client, access_token, new_plant):
     """
     GIVEN logged in user, plant data, and app instance
     WHEN trying to add new plant with valida data
     THEN check 200 status code and response
     """
-    rv = client.post('/login', json={'username': new_user['username'],
-                                     'password': new_user['password']})
-    access_token = rv.get_json()['access_token']
     rv = client.post('/plant',
                      headers={'Authorization': 'Bearer {}'
                               .format(access_token)},
@@ -32,17 +29,13 @@ def test_add_new_plant(client, registred_user, new_user, new_plant):
 
 
 def test_add_new_plant_without_name(client,
-                                    registred_user,
-                                    new_user,
+                                    access_token,
                                     new_plant):
     """
     GIVEN logged in user, plant data, and app instance
     WHEN trying to add new plant without required field
     THEN check if 400 status code and proper error raised
     """
-    rv = client.post('/login', json={'username': new_user['username'],
-                                     'password': new_user['password']})
-    access_token = rv.get_json()['access_token']
     del new_plant['name']
     rv = client.post('/plant',
                      headers={'Authorization': 'Bearer {}'

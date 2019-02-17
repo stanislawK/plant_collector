@@ -89,6 +89,14 @@ def registred_user(new_user, client, app, _db):
 
 
 @pytest.fixture
+def access_token(client, new_user, registred_user):
+    rv = client.post('/login', json={'username': new_user['username'],
+                                     'password': new_user['password']})
+    access_token = rv.get_json()['access_token']
+    return access_token
+
+
+@pytest.fixture
 def jwt():
     jwt = ('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDk0NzQzMjksImZyZ'
            'XNoIjp0cnVlLCJ0eXBlIjoiYWNjZXNzIiwianRpIjoiMjE3NWI2ZjgtY2Y0Zi00Njd'
@@ -104,3 +112,10 @@ def new_plant():
              "latin": "Monstera Adans.",
              "difficulty": 5}
     return plant
+
+
+@pytest.fixture
+def new_desc():
+    description = {"content": "Description content",
+                   "source": "wikipedia"}
+    return description

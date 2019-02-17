@@ -50,15 +50,12 @@ def test_refreshing_without_refresh_token(client, new_user, registred_user):
     assert response['msg'] == 'Missing Authorization Header'
 
 
-def test_refreshing_with_access_token(client, new_user, registred_user):
+def test_refreshing_with_access_token(client, access_token):
     """
     GIVEN logged in user with fresh token and app instance
     WHEN trying to refresh with access token
     THEN check 401 status code and error message
     """
-    rv = client.post('/login', json={'username': new_user['username'],
-                                     'password': new_user['password']})
-    access_token = rv.get_json()['access_token']
     rv_refresh = client.post('/refresh',
                              headers={'Authorization': 'Bearer {}'
                                       .format(access_token)})
