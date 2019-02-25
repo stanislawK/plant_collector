@@ -4,6 +4,7 @@ import HomePage from './components/HomePage.vue'
 import Register from './components/Register.vue'
 import Confirmation from './components/Confirmation.vue'
 import SignIn from './components/SignIn.vue'
+import AddPlant from './components/AddPlant.vue'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,9 @@ export default new VueRouter({
     },
     {
       path: '/login', component: SignIn
+    },
+    {
+      path: '/plant/new', component: AddPlant
     },
   ]
 })
