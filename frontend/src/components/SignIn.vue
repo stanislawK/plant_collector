@@ -122,7 +122,7 @@ export default {
     passwordErrors() {
       const errors = []
       if (!this.$v.password.$dirty) return errors
-      !this.$v.username.required && errors.push(
+      !this.$v.password.required && errors.push(
         'Hasło jest wymagane'
       )
       return errors

@@ -1,6 +1,5 @@
 <template lang="html">
   <div class="confirmation">
-    <v-app>
       <v-layout justify-center>
         <v-flex xs12 sm6>
           <v-progress-circular
@@ -33,7 +32,6 @@
           </div>
         </v-flex>
       </v-layout>
-    </v-app>
   </div>
 </template>
 

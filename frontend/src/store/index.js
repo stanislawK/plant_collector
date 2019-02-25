@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import register from './modules/register';
 import auth from './modules/auth';
+import plant from './modules/plant';
 
 Vue.use(Vuex);
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
 
   modules: {
     register,
-    auth
+    auth,
+    plant
   }
 })
 

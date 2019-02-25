@@ -8,6 +8,7 @@ from api.serializers.plant import plant_schema, plants_schema
 
 CREATED_SUCCESFULLY = "New plant created successfully"
 PLANT_NOT_FOUND = "Plant not found"
+DELETED = "Plant was deleted"
 
 
 class Plant(Resource):
@@ -26,7 +27,7 @@ class Plant(Resource):
                                user_id=user_id)
 
         new_plant.save_to_db()
-        return {"message": CREATED_SUCCESFULLY}, 201
+        return {"message": CREATED_SUCCESFULLY, "plant_id": new_plant.id}, 201
 
     @classmethod
     @jwt_required
@@ -36,6 +37,17 @@ class Plant(Resource):
 
         if plant and plant.user_id == user_id:
             return plant_schema.dump(plant), 200
+        return {"message": PLANT_NOT_FOUND}, 404
+
+    @classmethod
+    @jwt_required
+    def delete(cls, plant_id):
+        user_id = get_jwt_identity()
+        plant = PlantModel.find_by_id(plant_id)
+
+        if plant and plant.user_id == user_id:
+            plant.delete_from_db()
+            return {"message": DELETED}, 200
         return {"message": PLANT_NOT_FOUND}, 404
 
 
