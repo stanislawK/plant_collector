@@ -15,12 +15,20 @@
               <v-list-tile-title>Home</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile to="/login">
+          <v-list-tile v-if="!isLoggedIn" to="/login">
             <v-list-tile-action>
               <v-icon>exit_to_app</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>Zaloguj</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile v-if="isLoggedIn" to="/plant/new">
+            <v-list-tile-action>
+              <v-icon>add</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Dodaj roślinę</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-list-tile v-if="isLoggedIn" @click="onLogout">
@@ -31,7 +39,7 @@
               <v-list-tile-title>Wyloguj</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile to="/register">
+          <v-list-tile v-if="!isLoggedIn" to="/register">
             <v-list-tile-action>
               <v-icon>assignment</v-icon>
             </v-list-tile-action>

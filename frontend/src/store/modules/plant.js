@@ -11,8 +11,8 @@ export default {
       state.plant_id = plant_id
     },
     cleanPlantState (state) {
-      state.plant_id = '',
-    },
+      state.plant_id = ''
+    }
   },
   actions: {
     addName({commit}, plantNameData) {
