@@ -12,7 +12,6 @@
 
         <v-stepper-step step="3">Zdjęcie</v-stepper-step>
       </v-stepper-header>
-
       <v-stepper-items>
         <v-stepper-content step="1">
           <v-card
@@ -88,7 +87,50 @@
             Dalej
           </v-btn>
 
-          <v-btn flat @click="onDeletePlant">Anuluj</v-btn>
+
+            <v-dialog
+              v-model="dialog"
+              width="500"
+            >
+
+            <v-btn slot="activator">Anuluj</v-btn>
+
+              <v-card>
+                <v-card-title
+                  class="headline grey lighten-2"
+                  primary-title
+                >
+                  Uwaga
+                </v-card-title>
+
+                <v-card-text>
+                  Ta czynność spowoduje usunięcie rośliny. Czy na pewno chcesz to zrobić?
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="primary"
+                    flat
+                    @click="dialog = false"
+                  >
+                    Nie
+                  </v-btn>
+                  <v-btn
+                    color="primary"
+                    flat
+                    @click="onDeletePlant(); dialog = false"
+                  >
+                    Tak
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          
+
+
         </v-stepper-content>
 
         <v-stepper-content step="3">
@@ -126,7 +168,8 @@ export default {
       latin: '',
       difficulty: 1,
       description: '',
-      source: ''
+      source: '',
+      dialog: false
     }
   },
   validations: {
