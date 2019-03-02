@@ -1,10 +1,13 @@
 from flask import Flask
 from flask_cors import CORS
+from flask_uploads import configure_uploads, patch_request_class
 
-from api.models.blacklist import RevokedTokenModel
 from api.extensions import db, jwt, flask_api, mail, migrate
+from api.models.blacklist import RevokedTokenModel
+from api.models.image import IMAGE_SET
 from api.resources.confirmation import Confirmation
 from api.resources.description import Description
+from api.resources.image import ImageUpload
 from api.resources.plant import Plant, Plants
 from api.resources.user import (
     TokenRefresh,
@@ -26,6 +29,8 @@ def create_app(test_config=None):
 
     initialize_extensions(app)
     CORS(app)
+    patch_request_class(app, 10 * 1024 * 1024)
+    configure_uploads(app, IMAGE_SET)
 
     return app
 
@@ -53,6 +58,7 @@ flask_api.add_resource(Plant, "/plant", "/plant/<int:plant_id>")
 flask_api.add_resource(Plants, "/plants")
 flask_api.add_resource(Description, "/plant/<int:plant_id>/description",
                        "/plant/<int:plant_id>/description/<int:desc_id>")
+flask_api.add_resource(ImageUpload, "/plant/<int:plant_id>/upload/image")
 
 
 @jwt.token_in_blacklist_loader

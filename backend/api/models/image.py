@@ -17,7 +17,7 @@ class ImageModel(db.Model):
                          nullable=False)
     plant = db.relationship("PlantModel")
 
-    def __init__(self, plant_id, format=None, ext_url=None, **kwargs):
+    def __init__(self, plant_id, format, ext_url=None, **kwargs):
         super().__init__(**kwargs)
         self.name = uuid4().hex + format
         self.plant_id = plant_id
@@ -35,10 +35,14 @@ class ImageModel(db.Model):
         """Takes FileStorage and saves it to a folder"""
         folder = 'plant_{}'.format(self.plant_id)
         name = self.name
-        return IMAGE_SET.save(image, folder, name)
+        return IMAGE_SET.save(image, folder=folder, name=name)
 
     def get_path(self):
         """Take image name and folder and return full path"""
         folder = 'plant_{}'.format(self.plant_id)
         name = self.name
         return IMAGE_SET.path(folder, name)
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()

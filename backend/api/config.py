@@ -58,7 +58,7 @@ class DevelopmentConfig(Config):
     JWT_ACCESS_TOKEN_EXPIRES = 900
 
     """set maximum image size"""
-    MAX_CONTENT_LENGTH = None
+    # MAX_CONTENT_LENGTH = None
 
     """set directory for images"""
     UPLOADED_IMAGES_DEST = os.path.join("static", "images")
