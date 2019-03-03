@@ -87,14 +87,11 @@
             Dalej
           </v-btn>
 
-
             <v-dialog
               v-model="dialog"
               width="500"
             >
-
             <v-btn slot="activator">Anuluj</v-btn>
-
               <v-card>
                 <v-card-title
                   class="headline grey lighten-2"
@@ -128,18 +125,31 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-          
-
-
         </v-stepper-content>
 
         <v-stepper-content step="3">
           <v-card
             class="mb-5"
-            color="grey lighten-1"
-            height="200px"
+            height="40vh"
           >
-
+            <input
+              style="display: none;"
+              type="file"
+              @change="onFileSelected"
+              ref="fileInput"/>
+            <v-btn @click="$refs.fileInput.click()">Wybierz zdjęcie</v-btn>
+            <v-btn @click="onUpload">Wyślij</v-btn>
+            <br>
+            <v-progress-circular
+              v-if="progressBar"
+              :rotate="360"
+              :size="100"
+              :width="15"
+              :value="uploadProgress"
+              color="teal"
+            >
+              {{ uploadProgress }} %
+            </v-progress-circular>
           </v-card>
 
           <v-btn
@@ -169,7 +179,9 @@ export default {
       difficulty: 1,
       description: '',
       source: '',
-      dialog: false
+      dialog: false,
+      selectedFile: null,
+      progressBar: false
     }
   },
   validations: {
@@ -216,6 +228,21 @@ export default {
       .then(res => {
         this.$router.push('/')
       })
+    },
+    onFileSelected(event) {
+      this.selectedFile = event.target.files[0]
+      this.progressBar = true;
+    },
+    onUpload() {
+      const fd = new FormData()
+      fd.append("image", this.selectedFile)
+      this.$store.dispatch('plant/addImage', fd)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err.response)
+      })
     }
   },
   computed: {
@@ -227,6 +254,9 @@ export default {
       )
       return errors
     },
+    uploadProgress() {
+      return this.$store.getters['plant/progress']
+    }
   }
 }
 </script>

@@ -4,14 +4,20 @@ export default {
   namespaced: true,
   state: {
     plant_id: '',
+    uploadProgress: 0
   },
-  getters: {},
+  getters: {
+    progress: state => state.uploadProgress
+  },
   mutations: {
     setPlantId (state, plant_id) {
       state.plant_id = plant_id
     },
     cleanPlantState (state) {
       state.plant_id = ''
+    },
+    setProgress (state, progress) {
+      state.uploadProgress = progress
     }
   },
   actions: {
@@ -35,6 +41,29 @@ export default {
         axios.post('/plant/' + state.plant_id + '/description', {
           content: descData.description,
           source: descData.source
+        })
+        .then(res => {
+          resolve(res);
+        }, error => {
+          reject(error);
+        })
+      })
+    },
+    addImage({state, commit}, imgData) {
+      const config = {
+        onUploadProgress: uploadEvent => {
+          const progress = Math.round(uploadEvent.loaded / uploadEvent.total * 100)
+          commit('setProgress', progress)
+        }
+      }
+      return new Promise ((resolve, reject) => {
+        axios.post('/plant/' + state.plant_id + '/upload/image',
+          imgData,
+          config,
+          { headers: {
+            'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Origin': '*'
+          }
         })
         .then(res => {
           resolve(res);
