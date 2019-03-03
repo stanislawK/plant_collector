@@ -21,7 +21,7 @@ class ImageUpload(Resource):
     def post(cls, plant_id):
         user_id = get_jwt_identity()
         plant = PlantModel.find_by_id(plant_id)
-        import pdb; pdb.set_trace()
+
         if plant and plant.user_id == user_id:
             try:
                 img_data = img_schema.load(request.files)
