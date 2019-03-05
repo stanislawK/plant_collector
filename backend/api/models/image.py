@@ -4,6 +4,7 @@ from flask_uploads import UploadSet, IMAGES
 from api.extensions import db
 
 IMAGE_SET = UploadSet("images", IMAGES)
+UPLOAD_PATH = '/plantc/backend/static/images/{}/{}'
 
 
 class ImageModel(db.Model):
@@ -41,7 +42,7 @@ class ImageModel(db.Model):
         """Take image name and folder and return full path"""
         folder = 'plant_{}'.format(self.plant_id)
         name = self.name
-        return IMAGE_SET.path(folder, name)
+        return UPLOAD_PATH.format(folder, name)
 
     def save_to_db(self):
         db.session.add(self)
