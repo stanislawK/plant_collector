@@ -7,7 +7,7 @@ from api.models.blacklist import RevokedTokenModel
 from api.models.image import IMAGE_SET
 from api.resources.confirmation import Confirmation
 from api.resources.description import Description
-from api.resources.image import ImageUpload
+from api.resources.image import ImageUpload, Image
 from api.resources.plant import Plant, Plants
 from api.resources.user import (
     TokenRefresh,
@@ -59,6 +59,7 @@ flask_api.add_resource(Plants, "/plants")
 flask_api.add_resource(Description, "/plant/<int:plant_id>/description",
                        "/plant/<int:plant_id>/description/<int:desc_id>")
 flask_api.add_resource(ImageUpload, "/plant/<int:plant_id>/upload/image")
+flask_api.add_resource(Image, "/plant/<int:plant_id>/image")
 
 
 @jwt.token_in_blacklist_loader

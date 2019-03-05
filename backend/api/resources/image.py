@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, send_file
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask_restful import Resource
 from flask_uploads import UploadNotAllowed
@@ -13,6 +13,7 @@ from api.resources.plant import PLANT_NOT_FOUND
 
 IMAGE_UPLOADED = "Image was successfully uploaded"
 ILLEGAL_EXT = "This file is not allowed"
+IMG_NOT_FOUND = "Image not found"
 
 
 class ImageUpload(Resource):
@@ -37,3 +38,19 @@ class ImageUpload(Resource):
             except UploadNotAllowed:
                 return {"message": ILLEGAL_EXT + format + new_img.name}, 400
         return {"message": PLANT_NOT_FOUND}, 404
+
+
+class Image(Resource):
+    @jwt_required
+    def get(self, plant_id):
+        user_id = get_jwt_identity()
+        plant = PlantModel.find_by_id(plant_id)
+        if plant and plant.images and plant.user_id == user_id:
+            try:
+                image = plant.images[0]
+                return send_file(image.get_path())
+                # {"img": image.get_path()}
+                # return send_file(image.get_path())
+            except FileNotFoundError:
+                return {"message": IMG_NOT_FOUND}, 404
+        return {"message": IMG_NOT_FOUND}, 404
