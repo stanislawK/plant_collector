@@ -49,8 +49,6 @@ class Image(Resource):
             try:
                 image = plant.images[0]
                 return send_file(image.get_path())
-                # {"img": image.get_path()}
-                # return send_file(image.get_path())
             except FileNotFoundError:
                 return {"message": IMG_NOT_FOUND}, 404
         return {"message": IMG_NOT_FOUND}, 404

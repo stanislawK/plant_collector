@@ -20,11 +20,13 @@ from api.models.confirmation import ConfirmationModel
 from api.models.blacklist import RevokedTokenModel
 from api.models.plant import PlantModel
 from api.models.description import DescriptionModel
+from api.models.image import ImageModel
 target_metadata = [UserModel.metadata,
                    ConfirmationModel.metadata,
                    RevokedTokenModel.metadata,
                    PlantModel.metadata,
-                   DescriptionModel.metadata]
+                   DescriptionModel.metadata,
+                   ImageModel.metadata]
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from flask import current_app
