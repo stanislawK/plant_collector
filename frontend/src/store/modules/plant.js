@@ -72,6 +72,34 @@ export default {
         })
       })
     },
+    getPlant({commit}, plant_id) {
+      return new Promise ((resolve, reject) => {
+        axios.get('/plant/' + plant_id)
+        .then(res => {
+          resolve(res);
+        }, error => {
+          console.log(error)
+          reject(error);
+        })
+      })
+    },
+    getImage({commit}, plant_id) {
+      return new Promise ((resolve, reject) => {
+        axios.get('/plant/' + plant_id + '/image',
+        { headers: {
+          'Content-Type': 'multipart/form-data',
+          'Access-Control-Allow-Origin': '*'
+        },
+        responseType: 'arraybuffer'
+      })
+      .then(res => {
+        resolve(res)
+      }, error => {
+        console.log(error)
+        reject(error)
+      })
+      })
+    },
     deletePlant({commit, state}) {
       return new Promise ((resolve, reject) => {
         axios.delete('/plant/' + state.plant_id)
