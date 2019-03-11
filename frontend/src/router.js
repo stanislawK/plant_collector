@@ -6,6 +6,7 @@ import Confirmation from './components/Confirmation.vue'
 import SignIn from './components/SignIn.vue'
 import AddPlant from './components/AddPlant.vue'
 import Plant from './components/Plant.vue'
+import Plants from './components/Plants.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,9 @@ export default new VueRouter({
     },
     {
       path: '/plant', component: Plant
+    },
+    {
+      path: '/plants', component: Plants
     },
   ]
 })
