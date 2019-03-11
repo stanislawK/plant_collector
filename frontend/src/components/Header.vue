@@ -23,6 +23,14 @@
               <v-list-tile-title>Zaloguj</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
+          <v-list-tile v-if="isLoggedIn" to="/plants">
+            <v-list-tile-action>
+              <v-icon>view_comfy</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Twoje rośliny</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
           <v-list-tile v-if="isLoggedIn" to="/plant/new">
             <v-list-tile-action>
               <v-icon>add</v-icon>

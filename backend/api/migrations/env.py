@@ -26,7 +26,7 @@ target_metadata = [UserModel.metadata,
                    RevokedTokenModel.metadata,
                    PlantModel.metadata,
                    DescriptionModel.metadata,
-                   ImageModel.metadata]
+                   ImageModel.metadata ]
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from flask import current_app

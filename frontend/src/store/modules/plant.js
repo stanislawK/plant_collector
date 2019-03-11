@@ -83,6 +83,16 @@ export default {
         })
       })
     },
+    getPlants({commit}) {
+      return new Promise ((resolve, reject) => {
+        axios.get('/plants')
+        .then(res => {
+          resolve(res);
+        }, error => {
+          reject(error);
+        })
+      })
+    },
     getImage({commit}, plant_id) {
       return new Promise ((resolve, reject) => {
         axios.get('/plant/' + plant_id + '/image',
