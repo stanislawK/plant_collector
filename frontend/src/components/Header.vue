@@ -92,7 +92,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .header {
-      min-height: 20vh !important;
-    }
+
 </style>

@@ -69,7 +69,7 @@
           <form>
             <v-textarea
             v-model="description"
-            box
+            hint="Opis rośliny"
             label="Opis"
             auto-grow
             ></v-textarea>
