@@ -65,6 +65,11 @@ export default {
           })
           fileReader.readAsDataURL(blob)
         })
+        .catch(err => {
+          if (err.response.status == 404) {
+            plant.img = ''
+          }
+        })
       }
     }
   }

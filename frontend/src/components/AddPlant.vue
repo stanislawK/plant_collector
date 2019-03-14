@@ -16,7 +16,6 @@
         <v-stepper-content step="1">
           <v-card
             class="mb-5"
-            height="40vh"
           >
             <form>
               <v-text-field
@@ -31,10 +30,8 @@
               v-model="latin"
               label="Nazwa Łacińska"
               hint="To pole nie jest obowiązkowe"
-              ></v-text-field>
-              <p>
-                Trudonść:
-              </p>
+              ></v-text-field><br />
+              <span class="grey--text">Trudność</span>
               <v-rating
               v-model="difficulty"
               background-color="green lighten-3"
@@ -44,21 +41,18 @@
               ></v-rating>
             </form>
           </v-card>
-
           <v-btn
             color="primary"
             @click="onAddName"
           >
             Dalej
           </v-btn>
-
           <v-btn flat @click="onCleanPlantData">Anuluj</v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="2">
           <v-card
             class="mb-5"
-            height="40vh"
           >
           <p>
             Nazwa polska: {{name}}
@@ -76,6 +70,7 @@
             <v-text-field
             v-model="source"
             label="Źródło"
+            hint="Link do strony z której pochodzi opis"
             ></v-text-field>
           </form>
           </v-card>
@@ -128,38 +123,41 @@
         </v-stepper-content>
 
         <v-stepper-content step="3">
-          <v-card
-            class="mb-5"
-            height="40vh"
-          >
-            <input
-              style="display: none;"
-              type="file"
-              @change="onFileSelected"
-              ref="fileInput"/>
-            <v-btn @click="$refs.fileInput.click()">Wybierz zdjęcie</v-btn>
-            <v-btn @click="onUpload">Wyślij</v-btn>
-            <br>
-            <v-progress-circular
-              v-if="progressBar"
-              :rotate="360"
-              :size="100"
-              :width="15"
-              :value="uploadProgress"
-              color="teal"
-            >
-              {{ uploadProgress }} %
-            </v-progress-circular>
-          </v-card>
-
-          <v-btn
-            color="primary"
-            @click="page = 1"
-          >
-            Continue
-          </v-btn>
-
-          <v-btn flat>Cancel</v-btn>
+          <v-layout justify-center>
+            <v-flex xs12 sm8 md6 text-xs-center>
+              <v-card
+              class="mb-5"
+              >
+                <input
+                style="display: none;"
+                type="file"
+                @change="onFileSelected"
+                ref="fileInput"/>
+                <v-btn @click="$refs.fileInput.click()" v-if="!imageUrl">Wybierz zdjęcie</v-btn>
+                <v-btn @click="onUpload" v-if="imageUrl">
+                  Wyślij
+                  <v-icon right dark>cloud_upload</v-icon>
+                </v-btn>
+                <br>
+                <v-progress-linear
+                v-if="progressBar"
+                height="5"
+                :value="uploadProgress"
+                color="success"
+                >
+                </v-progress-linear>
+                <v-img
+                id="preview"
+                :src="imageUrl"
+                height="300px"
+                contain
+                style="margin-bottom: 3px;"
+                >
+                </v-img>
+            </v-card>
+            <v-btn flat>Anuluj</v-btn>
+            </v-flex>
+          </v-layout>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -181,7 +179,8 @@ export default {
       source: '',
       dialog: false,
       selectedFile: null,
-      progressBar: false
+      progressBar: false,
+      imageUrl: '',
     }
   },
   validations: {
@@ -230,7 +229,13 @@ export default {
       })
     },
     onFileSelected(event) {
-      this.selectedFile = event.target.files[0]
+      const image = event.target.files[0]
+      this.selectedFile = image
+      const fileReader = new FileReader()
+      fileReader.addEventListener('load', () => {
+        this.imageUrl = fileReader.result
+      })
+      fileReader.readAsDataURL(image)
       this.progressBar = true;
     },
     onUpload() {
@@ -238,7 +243,7 @@ export default {
       fd.append("image", this.selectedFile)
       this.$store.dispatch('plant/addImage', fd)
       .then(res => {
-        console.log(res)
+        this.$router.push('/plants')
       })
       .catch(err => {
         console.log(err.response)
