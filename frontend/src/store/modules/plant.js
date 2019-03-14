@@ -105,7 +105,6 @@ export default {
       .then(res => {
         resolve(res)
       }, error => {
-        console.log(error)
         reject(error)
       })
       })
