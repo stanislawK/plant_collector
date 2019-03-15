@@ -21,4 +21,9 @@ class ImageSchema(Schema):
     image = FileStorageField(required=True)
 
 
+class ImageModelSchema(Schema):
+    class Meta:
+        fields = ('id',)
+
+
 img_schema = ImageSchema()

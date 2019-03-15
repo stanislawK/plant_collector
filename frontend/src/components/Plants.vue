@@ -21,7 +21,6 @@
                 contain
               >
               </v-img>
-
               <v-card-actions class="white justify-center">
                 <v-subheader>
                   {{plant.name}}{{' '}}
@@ -56,20 +55,22 @@ export default {
   methods: {
     onGetImages() {
       for (let plant of this.plants) {
-        this.$store.dispatch('plant/getImage', plant.id)
-        .then(res => {
-          const blob = new Blob([res.data], {type : 'image/jpg'})
-          const fileReader = new FileReader()
-          fileReader.addEventListener('load', () => {
-            plant.img = fileReader.result
+        if (plant.images.length) {
+          this.$store.dispatch('plant/getImage', plant.id)
+          .then(res => {
+            const blob = new Blob([res.data], {type : 'image/jpg'})
+            const fileReader = new FileReader()
+            fileReader.addEventListener('load', () => {
+              plant.img = fileReader.result
+            })
+            fileReader.readAsDataURL(blob)
           })
-          fileReader.readAsDataURL(blob)
-        })
-        .catch(err => {
-          if (err.response.status == 404) {
-            plant.img = ''
-          }
-        })
+          .catch(err => {
+            if (err.response.status == 404) {
+              plant.img = ''
+            }
+          })
+        }
       }
     }
   }
