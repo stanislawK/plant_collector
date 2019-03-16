@@ -1,12 +1,13 @@
 <template>
   <div id="plant">
     <v-layout>
-     <v-flex xs12 sm6 offset-sm3>
+     <v-flex>
        <v-card>
          <span v-if="plant_img">
            <v-img
              :src="plant_img"
-             aspect-ratio="2.75"
+             height="300"
+             contain
            ></v-img>
            <p></p>
            <p></p>
@@ -45,9 +46,10 @@ export default {
       plant_img: ''
     }
   },
+  props: ['plant_id'],
   methods: {
     onGetPlant() {
-      this.$store.dispatch('plant/getPlant', 1)
+      this.$store.dispatch('plant/getPlant', this.plant_id)
       .then(res => {
         this.onGetImage()
         this.name = res.data.name
@@ -56,7 +58,7 @@ export default {
       })
     },
     onGetImage() {
-      this.$store.dispatch('plant/getImage', 1)
+      this.$store.dispatch('plant/getImage', this.plant_id)
       .then(res => {
         const blob = new Blob([res.data], {type : 'image/jpg'})
         const fileReader = new FileReader()

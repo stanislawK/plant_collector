@@ -13,8 +13,9 @@
             xs12
             sm6
             md4
+            text-xs-center
           >
-            <v-card>
+            <v-card @click="dialog=true; selectedPlant=plant.id">
               <v-img
                 :src="plant.img"
                 height="300px"
@@ -31,14 +32,26 @@
           </v-flex>
         </v-layout>
       </v-container>
+         <v-dialog
+         v-model="dialog"
+         width="600"
+         >
+          <app-plant :plant_id="selectedPlant"></app-plant>
+        </v-dialog>
   </div>
 </template>
 
 <script>
+import Plant from './Plant.vue'
 export default {
+  components: {
+    'app-plant': Plant
+  },
   data () {
     return {
-      plants: []
+      plants: [],
+      dialog: false,
+      selectedPlant: ''
     }
   },
   created() {
