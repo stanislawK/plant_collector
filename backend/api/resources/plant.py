@@ -60,7 +60,6 @@ class Plant(Resource):
             return {"message": CHANGED_SUCCESFULLY}, 201
         return {"message": PLANT_NOT_FOUND}, 404
 
-
     @classmethod
     @jwt_required
     def delete(cls, plant_id):
