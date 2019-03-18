@@ -1,3 +1,5 @@
+import os
+
 from flask import request, send_file
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from flask_restful import Resource
@@ -14,6 +16,7 @@ from api.resources.plant import PLANT_NOT_FOUND
 IMAGE_UPLOADED = "Image was successfully uploaded"
 ILLEGAL_EXT = "This file is not allowed"
 IMG_NOT_FOUND = "Image not found"
+IMG_DELETED = "Image was successfully deleted"
 
 
 class ImageUpload(Resource):
@@ -41,8 +44,9 @@ class ImageUpload(Resource):
 
 
 class Image(Resource):
+    @classmethod
     @jwt_required
-    def get(self, plant_id):
+    def get(cls, plant_id):
         user_id = get_jwt_identity()
         plant = PlantModel.find_by_id(plant_id)
         if plant and plant.images and plant.user_id == user_id:
@@ -52,3 +56,18 @@ class Image(Resource):
             except FileNotFoundError:
                 return {"message": IMG_NOT_FOUND}, 404
         return {"message": IMG_NOT_FOUND}, 404
+
+    @classmethod
+    @jwt_required
+    def delete(cls, plant_id):
+        user_id = get_jwt_identity()
+        plant = PlantModel.find_by_id(plant_id)
+        if plant and plant.images and plant.user_id == user_id:
+            try:
+                for image in plant.images:
+                    os.remove(image.get_path())
+                    image.delete_from_db()
+                return {"message": IMG_DELETED}, 200
+            except FileNotFoundError:
+                return {"message": IMG_NOT_FOUND}, 404
+        return {"message": IMG_NOT_FOUND}
