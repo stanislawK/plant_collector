@@ -18,7 +18,8 @@ def app():
         'SQLALCHEMY_TRACK_MODIFICATIONS': False,
         'DATABASE': db_path,
         'SQLALCHEMY_DATABASE_URI': "sqlite://",
-        'JWT_SECRET_KEY': 'TestJWTKey'
+        'JWT_SECRET_KEY': 'TestJWTKey',
+        'UPLOADED_IMAGES_DEST': 'Secret'
     })
 
     # create the db and load test data
@@ -55,7 +56,8 @@ def _db():
         'TESTING': True,
         'SQLALCHEMY_TRACK_MODIFICATIONS': False,
         'DATABASE': db_path,
-        'SQLALCHEMY_DATABASE_URI': "sqlite://"
+        'SQLALCHEMY_DATABASE_URI': "sqlite://",
+        'UPLOADED_IMAGES_DEST': 'Secret'
     })
 
     # create the db and load test data
