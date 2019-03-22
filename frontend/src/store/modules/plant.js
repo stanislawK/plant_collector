@@ -36,9 +36,40 @@ export default {
         })
       })
     },
+    editName({commit}, [plantNameData, plant_id]) {
+      console.log(plantNameData)
+      console.log(plant_id)
+      return new Promise ((resolve, reject) => {
+        axios.put('/plant/' + plant_id, {
+          name: plantNameData.name,
+          latin: plantNameData.latin,
+          difficulty: plantNameData.difficulty
+        })
+        .then(res => {
+          commit('setPlantId', res.data.plant_id);
+          resolve(res);
+        }, error => {
+          reject(error);
+        })
+      })
+    },
     addDesc({state}, descData) {
       return new Promise ((resolve, reject) => {
         axios.post('/plant/' + state.plant_id + '/description', {
+          content: descData.description,
+          source: descData.source
+        })
+        .then(res => {
+          resolve(res);
+        }, error => {
+          reject(error);
+        })
+      })
+    },
+    editDesc({state}, [descData, plant_id, desc_id]) {
+      console.log(descData)
+      return new Promise ((resolve, reject) => {
+        axios.put('/plant/' + plant_id + '/description/' + desc_id, {
           content: descData.description,
           source: descData.source
         })

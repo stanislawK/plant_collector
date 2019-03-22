@@ -7,6 +7,7 @@ import SignIn from './components/SignIn.vue'
 import AddPlant from './components/AddPlant.vue'
 import Plant from './components/Plant.vue'
 import Plants from './components/Plants.vue'
+import EditPlant from './components/EditPlant.vue'
 
 Vue.use(VueRouter)
 
@@ -37,10 +38,13 @@ export default new VueRouter({
       path: '/login', component: SignIn
     },
     {
+      path: '/plant', component: Plant
+    },
+    {
       path: '/plant/new', component: AddPlant
     },
     {
-      path: '/plant', component: Plant
+      path: '/plant/:plant_id/edit', component: EditPlant
     },
     {
       path: '/plants', component: Plants

@@ -19,7 +19,7 @@
              <div v-for="desc in descriptions">
                {{ desc.content }}
                <span v-if="desc.source">
-                 <a href="desc.source">Źródło</a>
+                 <a :href="desc.source">Źródło</a>
                </span>
                <br />
              </div>
@@ -27,7 +27,7 @@
          </v-card-title>
 
          <v-card-actions>
-           <v-btn flat color="orange">Share</v-btn>
+           <v-btn flat color="orange" @click="onEdit">Edutuj</v-btn>
            <v-btn flat color="orange" @click="onGetPlant">Explore</v-btn>
          </v-card-actions>
        </v-card>
@@ -67,6 +67,9 @@ export default {
         })
         fileReader.readAsDataURL(blob)
       })
+    },
+    onEdit() {
+      this.$router.push('plant/'+this.plant_id+'/edit')
     }
   }
 }

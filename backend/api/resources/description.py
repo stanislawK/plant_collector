@@ -49,8 +49,7 @@ class Description(Resource):
             except ValidationError as err:
                 return {"message": err.messages}, 400
 
-            if desc.source:
-                desc.source = desc_data.get('source')
+            desc.source = desc_data.get('source')
             desc.content = desc_data['content']
 
             desc.save_to_db()
