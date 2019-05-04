@@ -4,11 +4,13 @@ export default {
   namespaced: true,
   state: {
     token: localStorage.getItem('token') || '',
-    user: {}
+    user: {},
+    successMsg: ''
   },
   getters: {
     isLoggedIn: state => !!state.token,
     getUser: state => state.user,
+    getMsg: state => state.successMsg
   },
   mutations: {
     auth_success(state, token) {
@@ -21,6 +23,12 @@ export default {
     fetchUser(state, user) {
       state.user = user
     },
+    successMsg(state) {
+      state.successMsg = 'Pomyślnie zalogowano'
+    },
+    clearMsg(state) {
+      state.successMsg = null
+    }
   },
   actions: {
     login({commit, dispatch}, loginData) {
@@ -35,6 +43,7 @@ export default {
           localStorage.setItem('refresh_token', res.data.refresh_token)
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
           commit('auth_success', token)
+          commit('successMsg')
           dispatch('setRefreshTimer')
           resolve(res)
         }, error => {
