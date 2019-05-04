@@ -9,12 +9,6 @@
           @click="error_msg=''"
           transition="slide-y-transition"
           >{{error_msg}}</v-alert>
-          <v-alert
-          type="success"
-          :value="successAlert"
-          @click="successAlert = !successAlert"
-          transition="slide-y-transition"
-          >Pomyślnie zalogowano</v-alert>
           <v-progress-circular
             v-if="spinner"
             :size="50"
@@ -59,7 +53,6 @@ export default {
       password: '',
       show1: false,
       error_msg: '',
-      successAlert: false,
       spinner: false
     }
   },
