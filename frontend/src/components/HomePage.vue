@@ -3,6 +3,13 @@
     <v-app>
       <v-layout justify-center>
         <v-flex xs12 sm6 text-xs-center>
+          <v-alert
+          type="error"
+          :value="pageNotFound"
+          @click="pageNotFound = false"
+          dismissible
+          transition="slide-y-transition"
+          >Strona o podanym adresie nie istnieje</v-alert>
           <v-btn
           color="info"
           to="/login"
@@ -23,8 +30,12 @@
 
 <script>
 export default {
-
-
+  props: {
+    pageNotFound: {
+      type: Boolean,
+      default: false,
+    },
+  },
 }
 </script>
 
