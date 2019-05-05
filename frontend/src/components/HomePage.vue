@@ -12,8 +12,8 @@
           >{{successAlert}}</v-alert>
           <v-alert
           type="error"
-          :value="pageNotFound"
-          @click="pageNotFound = false"
+          :value="notFoundAlert"
+          @click="notFoundAlert = false"
           dismissible
           transition="slide-y-transition"
           >Strona o podanym adresie nie istnieje</v-alert>
@@ -44,6 +44,11 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      notFoundAlert: this.pageNotFound
+    }
+  },
   methods: {
     onCloseAlert() {
       this.$store.commit('auth/clearMsg')
@@ -53,7 +58,16 @@ export default {
     ...mapGetters({
       successAlert: 'auth/getMsg'
     })
-  }
+  },
+  beforeRouteLeave (to, from, next) {
+    if (this.successAlert) {
+      this.onCloseAlert()
+    }
+    if (this.notFoundAlert) {
+      this.notFoundAlert = false
+    }
+    return next()
+  },
 }
 </script>
 
