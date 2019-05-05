@@ -67,9 +67,9 @@ export default {
         dispatch('setRefreshTimer')
       })
     },
-    tryAutoLogin({commit, dispatch}) {
+    tryAutoLogin({commit, dispatch, getters}) {
       const token = localStorage.getItem('refresh_token')
-      if (!token) {
+      if (!token || getters.isLoggedIn) {
         return
       }
       dispatch('refresh')
@@ -78,8 +78,8 @@ export default {
       return new Promise((resolve, reject) => {
         axios.post('/logout/access')
         .then(res => {
-          commit('logout')
           localStorage.removeItem('token')
+          commit('logout')
           dispatch('logoutRefresh')
         })
         .catch(error => {
