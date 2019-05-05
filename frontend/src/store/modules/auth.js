@@ -23,8 +23,11 @@ export default {
     fetchUser(state, user) {
       state.user = user
     },
-    successMsg(state) {
+    successLoginMsg(state) {
       state.successMsg = 'Pomyślnie zalogowano'
+    },
+    successLogoutMsg(state) {
+      state.successMsg = 'Pomyślnie wylogowano'
     },
     clearMsg(state) {
       state.successMsg = null
@@ -43,7 +46,7 @@ export default {
           localStorage.setItem('refresh_token', res.data.refresh_token)
           axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
           commit('auth_success', token)
-          commit('successMsg')
+          commit('successLoginMsg')
           dispatch('setRefreshTimer')
           resolve(res)
         }, error => {
@@ -101,6 +104,7 @@ export default {
             })
             localStorage.removeItem('refresh_token')
             delete axios.defaults.headers.common['Authorization']
+            commit('successLogoutMsg')
             resolve()
         })
       }

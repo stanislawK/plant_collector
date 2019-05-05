@@ -4,6 +4,13 @@
       <v-layout justify-center>
         <v-flex xs12 sm6 text-xs-center>
           <v-alert
+          type="success"
+          :value="successAlert"
+          @click="onCloseAlert"
+          dismissible
+          transition="slide-y-transition"
+          >{{successAlert}}</v-alert>
+          <v-alert
           type="error"
           :value="pageNotFound"
           @click="pageNotFound = false"
@@ -29,6 +36,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     pageNotFound: {
@@ -36,6 +44,16 @@ export default {
       default: false,
     },
   },
+  methods: {
+    onCloseAlert() {
+      this.$store.commit('auth/clearMsg')
+    }
+  },
+  computed: {
+    ...mapGetters({
+      successAlert: 'auth/getMsg'
+    })
+  }
 }
 </script>
 
