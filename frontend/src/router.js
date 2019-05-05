@@ -49,5 +49,11 @@ export default new VueRouter({
     {
       path: '/plants', component: Plants
     },
+    {
+      path: '*',
+      name: 'PageNotFound',
+      component: HomePage,
+      props: { pageNotFound: true }
+    },
   ]
 })
