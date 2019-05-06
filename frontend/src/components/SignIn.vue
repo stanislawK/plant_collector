@@ -87,6 +87,8 @@ export default {
           } else if (err.includes("wasn't comifired")) {
             this.error_msg = ("Rejestracja nie została dokończona.\
                               Sprawdź skrzynkę email")
+          } else if (err.includes("already logged in")) {
+            this.error_msg = ("Jesteś już zalogowany")
           } else {
             console.log(error)
           }
