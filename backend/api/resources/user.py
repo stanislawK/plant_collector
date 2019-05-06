@@ -4,6 +4,7 @@ from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
     get_jwt_identity,
+    jwt_optional,
     get_raw_jwt,
     jwt_refresh_token_required,
     jwt_required,
@@ -23,6 +24,7 @@ import pdb
 """Messages"""
 CREATED_SUCCESFULLY = "Confirmation email was sent"
 USER_ALREADY_EXIST = "User with that {} already exist"
+USER_ALREADY_LOGGED_IN = "User already logged in"
 FAILED_TO_CREATE = "Error when trying to register new user"
 NOT_CONFIRMED = "Registration wasn't comifired"
 INVALID_CREDENTIALS = "Invalid credentials"
@@ -66,7 +68,13 @@ class UserRegister(Resource):
 
 class UserLogin(Resource):
     @classmethod
+    @jwt_optional
     def post(cls):
+        current_user = get_jwt_identity()
+
+        if current_user:
+            return {"message": USER_ALREADY_LOGGED_IN}, 400
+
         try:
             user_data = user_schema.load(request.get_json(),
                                          partial=('email',))
